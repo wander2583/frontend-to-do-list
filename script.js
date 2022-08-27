@@ -1,15 +1,27 @@
-const inputTarefa = document.getElementById("tarefa-nova")
+const inputTarefa = document.querySelector("tarefa-nova")
+const lista = document.querySelector("tarefa-nova")
 
 const validar = () => inputTarefa.value.trim().length > 0;
+
 const adicionar = () => {
   const ehValido = validar();
+  console.log(ehValido);
+
   if (!ehValido) {
     return inputTarefa.classList.add("erro");
-}
+  }
 };
 
-addTaskButton.addEventListener("click", () => validar());
+const alterarInput = () => {
+  const ehValido = validar();
+  if (ehValido) {
+    return inputTarefa.classList.remove("erro");
+  }
+};
 
+lista.addEventListener("click", () => adicionar());
+inputTarefa.addEventListener("change", () => alterarInput());
+/*
 let idTarefa = 0
 const adicionarTarefa = () => {
   const item = document.createElement("li") 
@@ -17,7 +29,6 @@ const adicionarTarefa = () => {
     `<span>${inputTarefa.value}</span>
     <button class="excluir">x</button>`
  
-  const lista = document.querySelector("#lista")
   lista.appendChild(item)
 
   inputTarefa.value = ""
@@ -46,3 +57,4 @@ botaoLimpar.addEventListener("click", function (event){
   lista.innerHTML = "";
 } )
 
+*/
