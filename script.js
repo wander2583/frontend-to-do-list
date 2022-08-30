@@ -1,60 +1,120 @@
-const inputTarefa = document.querySelector("tarefa-nova")
-const lista = document.querySelector("tarefa-nova")
+const inputElement = document.querySelector(".new-task-input");
+const addTaskButton = document.querySelector(".new-task-button");
+const tasksContainer = document.querySelector(".tasks-container");
 
-const validar = () => inputTarefa.value.trim().length > 0;
+const validateInput = () => inputElement.value.trim().length > 0;
 
-const adicionar = () => {
-  const ehValido = validar();
-  console.log(ehValido);
+const handleAddTask = () => {
+  const inputIsValid = validateInput();
 
-  if (!ehValido) {
-    return inputTarefa.classList.add("erro");
+  if (!inputIsValid) {
+    return inputElement.classList.add("error");
+  }
+
+  const taskItemContainer = document.createElement("div");
+  taskItemContainer.classList.add("task-item");
+
+  const taskContent = document.createElement("p");
+  taskContent.innerText = inputElement.value;
+
+  taskContent.addEventListener("click", () => handleClick(taskContent));
+
+  const deleteItem = document.createElement("i");
+  deleteItem.classList.add("far");
+  deleteItem.classList.add("fa-trash-alt");
+
+  deleteItem.addEventListener("click", () => handleDeleteClick(taskItemContainer, taskContent));
+
+  taskItemContainer.appendChild(taskContent);
+  taskItemContainer.appendChild(deleteItem);
+
+  tasksContainer.appendChild(taskItemContainer);
+
+  inputElement.value ="";
+
+  updateLocalStorage();
+
+};
+
+const handleClick = (taskContent) => {
+    const tasks = tasksContainer.childNodes;
+
+    for (const task of tasks) {
+      const currentTaskIsBeginClicked = task.firstChild.isSameNode(taskContent);
+      if (currentTaskIsBeginClicked) {
+        task.firstChild.classList.toggle("completed")
+    }
+  }
+
+  updateLocalStorage();
+};
+
+const handleDeleteClick = (taskItemContainer, taskContent) => {
+  const tasks = tasksContainer.childNodes;
+
+  for (const task of tasks) {
+    const currentTaskIsBeginClicked = task.firstChild.isSameNode(taskContent);
+    if (currentTaskIsBeginClicked) {
+      taskItemContainer.remove();
+    }
+  }
+
+  updateLocalStorage();
+};
+
+const handleInputChange = () => {
+  const inputIsValid = validateInput();
+
+  if (inputIsValid) {
+    return inputElement.classList.remove("error");
   }
 };
 
-const alterarInput = () => {
-  const ehValido = validar();
-  if (ehValido) {
-    return inputTarefa.classList.remove("erro");
+const updateLocalStorage = () => {
+  const tasks = tasksContainer.childNodes;
+
+  const localStorageTask = [...tasks].map((task) => {
+    const content = task.firstChild;
+    const isCompleted = content.classList.contains("completed");
+
+    return { description: content.innerText, isCompleted };
+  });
+
+  localStorage.setItem("tasks", JSON.stringify(localStorageTask));
+};
+
+const refreshTasksUsingLocalStorage = () => {
+  const tasksFromLocalStorage = JSON.parse(localStorage.getItem("tasks"));
+
+  if (!tasksFromLocalStorage) return;
+
+  for (const task of tasksFromLocalStorage) {
+  const taskItemContainer = document.createElement("div");
+  taskItemContainer.classList.add("task-item");
+
+  const taskContent = document.createElement("p");
+  taskContent.innerText = task.description;
+
+  if (task.isCompleted) {
+    taskContent.classList.add("completed");
+  }
+
+  taskContent.addEventListener("click", () => handleClick(taskContent));
+
+  const deleteItem = document.createElement("i");
+  deleteItem.classList.add("far");
+  deleteItem.classList.add("fa-trash-alt");
+
+  deleteItem.addEventListener("click", () => handleDeleteClick(taskItemContainer, taskContent));
+
+  taskItemContainer.appendChild(taskContent);
+  taskItemContainer.appendChild(deleteItem);
+
+  tasksContainer.appendChild(taskItemContainer);
   }
 };
 
-lista.addEventListener("click", () => adicionar());
-inputTarefa.addEventListener("change", () => alterarInput());
-/*
-let idTarefa = 0
-const adicionarTarefa = () => {
-  const item = document.createElement("li") 
-  item.innerHTML = 
-    `<span>${inputTarefa.value}</span>
-    <button class="excluir">x</button>`
- 
-  lista.appendChild(item)
+refreshTasksUsingLocalStorage();
 
-  inputTarefa.value = ""
-  idTarefa++;
-  item.id = idTarefa;
-}
-
-document
-  .querySelector("#btn-adicionar")
-  .addEventListener("click", adicionarTarefa)
-  
-
-  function concluir(itemId) {
-    const tarefaSelecionada = document.getElementById(itemId);
-    tarefaSelecionada.className = "concluida";
-    item.innerHTML = `
-      <span onclick="concluir(${idTarefa})">${inputTarefa.value}</span>
-      <button class="excluir" onclick="excluir(event)">x</button>
-    `;
-}
-
-const botaoLimpar = document.querySelector(".bt-azul");
-
-botaoLimpar.addEventListener("click", function (event){
-  const lista = document.querySelector("#lista")
-  lista.innerHTML = "";
-} )
-
-*/
+addTaskButton.addEventListener("click", () => handleAddTask());
+inputElement.addEventListener("change", () => handleInputChange());
