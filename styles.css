@@ -19,6 +19,15 @@ main {
   margin: 0 auto;
 }
 
+h1 {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1, p {
+  color: #fff;
+}
+
 .titulo {
   font-weight: bold;
   text-transform: uppercase;
@@ -46,6 +55,7 @@ main {
   background-color: #32cdac;
   padding: 10px;
   border: none;
+  flex: 1;
   height:40px;
   margin-left: 10px;
   border-radius: 20px;
@@ -62,6 +72,11 @@ main {
   width: 40%;
   margin-top: 40px;
   -webkit-transition: all 150ms ease-in-out;
+}
+
+.caixa {
+  margin-top: 40px;
+  text-align: center;
 }
 
 #lista {

@@ -1,3 +1,28 @@
+const inputTarefa = document.getElementById("tarefa-nova");
+
+function adicionarTarefa() {
+  const item = document.createElement("li");
+  
+  item.innerHTML = `
+  <li>
+  <sp>${inputTarefa.value}</span>
+  <button class="excluir">x</button>
+  </li>
+  `;
+
+  const lista = document.querySelector("#lista");
+  lista.appendChild(item);
+
+  inputTarefa.value = "";
+}
+const botao = document.querySelector("#btn-adicionar")
+botao.addEventListener("click", adicionarTarefa);
+
+
+
+
+
+/*
 const inputElement = document.querySelector(".new-task-input");
 const addTaskButton = document.querySelector(".new-task-button");
 const tasksContainer = document.querySelector(".tasks-container");
@@ -118,3 +143,5 @@ refreshTasksUsingLocalStorage();
 
 addTaskButton.addEventListener("click", () => handleAddTask());
 inputElement.addEventListener("change", () => handleInputChange());
+
+*/
