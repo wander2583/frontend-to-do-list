@@ -1,24 +1,37 @@
 const inputTarefa = document.getElementById("tarefa-nova");
+let idTarefa = 0;
+
+function concluir(itemId) {
+  const tarefaSelecionada = document.getElementById(itemId);
+  tarefaSelecionada.className = "concluida";
+}
 
 function adicionarTarefa() {
   const item = document.createElement("li");
   
   item.innerHTML = `
-  <li>
-  <sp>${inputTarefa.value}</span>
-  <button class="excluir">x</button>
-  </li>
+  <span onclick="concluir(#{idTarefa})">${inputTarefa.value}</span>
+  <button class="excluir" onclick="(event)">x</button>
   `;
+
+  idTarefa++;
+  item.id = idTarefa;
 
   const lista = document.querySelector("#lista");
   lista.appendChild(item);
 
   inputTarefa.value = "";
 }
-const botao = document.querySelector("#btn-adicionar")
-botao.addEventListener("click", adicionarTarefa);
+const botaoAdicionar = document.querySelector("#btn-adicionar")
+botaoAdicionar.addEventListener("click", adicionarTarefa);
 
+function limparLista () {
+  const lista = document.querySelector("#lista");
+  lista.innerHTML = "";
+}
 
+const botaoLimpar = document.querySelector(".bt-azul");
+botaoLimpar.addEventListener("click", limparLista);
 
 
 
