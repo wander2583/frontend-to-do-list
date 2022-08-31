@@ -96,11 +96,6 @@ h1, p {
   align-items: center;
 }
 
-.concluida span {
-  text-decoration: line-through;
-  color: #a9a9a9;
-}
-
 .caixa {
   margin-top: 40px;
   text-align: center;
@@ -116,10 +111,7 @@ h1, p {
   cursor: pointer;
 }
 
-.erro {
- border: 2px solid red !important;
-}
-
-.erro::placeholder {
-  color: red;
+.concluida {
+  text-decoration: line-through;
+  color: #a9a9a9;
 }
