@@ -26,6 +26,7 @@ h1 {
 
 h1, p {
   color: #fff;
+  text-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .5);
 }
 
 .titulo {
